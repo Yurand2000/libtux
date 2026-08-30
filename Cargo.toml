@@ -1,6 +1,6 @@
 [package]
 name = "libtux"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 
 [dependencies]
@@ -11,7 +11,9 @@ serde = { version = "1.0.229", features = ["derive"], optional = true }
 default = [
     "clock",
     "serde",
+    "time_iterators",
 ]
 clock = []
 serde = ["dep:serde"]
 time_extra = []
+time_iterators = []
