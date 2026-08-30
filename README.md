@@ -1,6 +1,6 @@
 # 🦀 LibTux 🐧
 
-*Current Version: 0.1*
+*Current Version: 0.1.1*
 
 Rust's Standard Library extension for Linux systems, leveraging the standard libc and Linux specific syscalls for easier implementation of Linux-only software.
 
@@ -24,9 +24,10 @@ The following is a non-exhaustive list of currently implemented features:
 
 | Feature Name | Default | Since | Docs | Description |
 | -----------: | :-----: | ----: | :--: | :---------- |
-| `clock` | ✔️ | 0.1 | ❌ | `Monotonic` and `Realtime` clock functions support |
-| `serde` | ✔️ | 0.1 | ❌ | Enable Serialization/Deserialization of supported struct using `serde` |
-| `time_extra` | ❌ | 0.1 | ❌ | Extra `Time`-specific structs and functions |
+| `clock` | ✔️ | 0.1.0 | ❌ | `Monotonic` and `Realtime` clock functions support |
+| `serde` | ✔️ | 0.1.0 | ❌ | Enable Serialization/Deserialization of supported struct using `serde` |
+| `time_extra` | ❌ | 0.1.0 | ❌ | Extra `Time`-specific structs and functions |
+| `time_iterators` | ✔️ | 0.1.1 | ❌ | Iterator for `Time` ranges |
 
 ## 🔗 Dependencies
 
