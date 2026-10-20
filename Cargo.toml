@@ -1,19 +1,29 @@
 [package]
 name = "libtux"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 
 [dependencies]
-libc = "0.2.189"
+bitflags = { version = "2.13.2", optional = true }
+libc = { version = "0.2.189", optional = true }
+nom = { version = "8.0.0", optional = true }
 serde = { version = "1.0.229", features = ["derive"], optional = true }
 
 [features]
 default = [
     "clock",
-    "serde",
+    "cpuset",
+    "time",
     "time_iterators",
+    "sched",
+    "serde",
+    "parser",
 ]
-clock = []
+clock = ["time", "dep:libc"]
+cpuset = ["dep:libc"]
+time = []
+time_extra = ["time"]
+time_iterators = ["time"]
+sched = ["dep:libc", "dep:bitflags"]
 serde = ["dep:serde"]
-time_extra = []
-time_iterators = []
+parser = ["dep:nom"]

@@ -1,8 +1,23 @@
-use crate::prelude::*;
-
 pub mod prelude {
-    #[cfg(feature = "serde")]
-    pub use super::time_serde::TimeParseError;
+    #[cfg(feature = "time_extra")]
+    pub use super::time_extra::prelude::*;
+    #[cfg(feature = "time_iterators")]
+    pub use super::time_iterators::prelude::*;
+
+    pub use super::{
+        Time
+    };
+}
+
+#[cfg(feature = "time_extra")]
+pub mod time_extra;
+
+#[cfg(feature = "time_iterators")]
+pub mod time_iterators;
+
+#[derive(Debug, Clone, Copy)]
+pub struct Time {
+    value_ns: f64,
 }
 
 impl Time {

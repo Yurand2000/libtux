@@ -1,26 +1,10 @@
-use crate::prelude::*;
-
 pub mod prelude {
-    pub use super::time::prelude::*;
-    #[cfg(feature = "time_extra")]
-    pub use super::time_extra::prelude::*;
-    #[cfg(feature = "time_iterators")]
-    pub use super::time_iterators::prelude::*;
+    #[cfg(feature = "cpuset")]
+    pub use crate::cpu::CpuID;
 
-    pub use super::{
-        Time,
-    };
-}
+    #[cfg(any(feature = "sched", feature= "cpuset"))]
+    pub use crate::pid::Pid;
 
-pub mod time;
-
-#[cfg(feature = "time_extra")]
-pub mod time_extra;
-
-#[cfg(feature = "time_iterators")]
-pub mod time_iterators;
-
-#[derive(Debug, Clone, Copy)]
-pub struct Time {
-    value_ns: f64,
+    #[cfg(feature = "time")]
+    pub use crate::time::Time;
 }

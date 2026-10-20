@@ -1,6 +1,6 @@
 # 🦀 LibTux 🐧
 
-*Current Version: 0.1.1*
+*Current Version: 0.1.2*
 
 Rust's Standard Library extension for Linux systems, leveraging the standard libc and Linux specific syscalls for easier implementation of Linux-only software.
 
@@ -19,22 +19,31 @@ The following is a non-exhaustive list of currently implemented features:
     + Time serialization with `serde`.
 - Clock utilities from libc:
     + `Monotonic` and `Realtime` clocks supported.
+- Get/Set process scheduler and affinity.
 
 ## 🧩 Cargo-Features
 
 | Feature Name | Default | Since | Docs | Description |
 | -----------: | :-----: | ----: | :--: | :---------- |
 | `clock` | ✔️ | 0.1.0 | ❌ | `Monotonic` and `Realtime` clock functions support |
+| `time` | ✔️ | 0.1.2 | ❌ | Time constructs. |
+||||| + Time serialization with `serde`. |
+| `time_extra` | ❌ | 0.1.0 | ❌ | Extra Time-specific structs and functions |
+| `time_iterators` | ✔️ | 0.1.1 | ❌ | Iterators for Time ranges |
+| `sched` | ✔️ | 0.1.2 | ❌ | Get and set process scheduler |
+| `cpuset` | ✔️ | 0.1.2 | ❌ | Get and set process cpu affinity |
+| |
 | `serde` | ✔️ | 0.1.0 | ❌ | Enable Serialization/Deserialization of supported struct using `serde` |
-| `time_extra` | ❌ | 0.1.0 | ❌ | Extra `Time`-specific structs and functions |
-| `time_iterators` | ✔️ | 0.1.1 | ❌ | Iterator for `Time` ranges |
+| `parser` | ✔️ | 0.1.2 | ❌ | Enable complex string-parsers for supported types. |
 
 ## 🔗 Dependencies
 
-| Crate | Default | Features |
+| Crate | Optional | Features |
 | ----: | :-----: | :------ |
-| [`libc`](https://crates.io/crates/libc) | ✔️ | |
-| [`serde`](https://crates.io/crates/serde) | ❌ | `serde` |
+| [`libc`](https://crates.io/crates/libc) | ✔️ | `clock`, `cpuset`, `sched` |
+| [`bitflags`](https://crates.io/crates/bitflags) | ✔️ | `sched` |
+| [`serde`](https://crates.io/crates/serde) | ✔️ | `serde` |
+| [`nom`](https://crates.io/crates/nom) | ✔️ | `parser` |
 
 ## 📄 License
 

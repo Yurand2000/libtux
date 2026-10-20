@@ -101,12 +101,12 @@ pub fn clock_sleep_absolute(clock: ClockType, time: Time) {
     };
 }
 
-pub fn timespec_to_time(timespec: libc::timespec) -> Time {
+fn timespec_to_time(timespec: libc::timespec) -> Time {
     Time::secs(timespec.tv_sec as f64) +
         Time::nanos(timespec.tv_nsec as f64)
 }
 
-pub fn time_to_timespec(time: Time) -> libc::timespec {
+fn time_to_timespec(time: Time) -> libc::timespec {
     libc::timespec {
         tv_sec: (time.as_secs().floor()) as i64,
         tv_nsec: (time.as_secs().fract() * Time::SECS_TO_NANO) as i64,

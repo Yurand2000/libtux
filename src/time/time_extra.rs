@@ -1,7 +1,9 @@
 use crate::prelude::*;
 
 pub mod prelude {
-    pub use super::Time2;
+    pub use super::{
+        Time2
+    };
 }
 
 #[derive(Debug, Clone, Copy)]
