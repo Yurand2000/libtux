@@ -1,7 +1,13 @@
 use crate::prelude::*;
 
 pub mod prelude {
-    pub use super::{Signal, signal};
+    pub use super::{
+        Signal,
+        signal,
+        set_handler,
+        set_handler_default,
+        set_handler_ignore,
+    };
 }
 
 const SIG_NUMS: usize = 32;
