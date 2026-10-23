@@ -83,15 +83,14 @@ impl CpuSet {
         CpuSet { cpus: Vec::with_capacity(0) }
     }
 
-    /// Create a CpuSet containing all cpus
+    /// Create a CpuSet containing all online cpus
     #[cfg(feature = "parser")]
-    pub fn all() -> Result<Self, CpuSetBuildError> {
+    pub fn online() -> Result<Self, CpuSetBuildError> {
         use std::str::FromStr as _;
 
         let online_cpus = std::fs::read_to_string("/sys/devices/system/cpu/online")
             .map_err(|err| CpuSetBuildError::IO(err))?;
-        let cpuset = CpuSet::from_str(&online_cpus)
-            .map_err(|err| CpuSetBuildError::ParseError(err))?;
+        let cpuset = CpuSet::from_str(&online_cpus)?;
 
         Ok(CpuSet { cpus: cpuset.cpus })
     }
@@ -124,6 +123,11 @@ impl CpuSet {
         };
 
         self
+    }
+
+    pub fn is_subset(&self, other: &Self) -> bool {
+        self.cpus.iter()
+            .all(|cpu| other.cpus.contains(cpu))
     }
 
     /// Get if a CPU is in the set
@@ -164,7 +168,7 @@ impl CpuSet {
 
 #[cfg(feature = "parser")]
 impl std::str::FromStr for CpuSet {
-    type Err = String;
+    type Err = CpuSetBuildError;
 
     fn from_str<'a>(s: &'a str) -> Result<Self, Self::Err> {
         use nom::Parser;
@@ -210,7 +214,8 @@ impl std::str::FromStr for CpuSet {
         );
 
         Ok(CpuSet {
-            cpus: parser.parse(s).map_err(|err| format!("{err}"))?.1
+            cpus: parser.parse(s)
+                .map_err(|err| CpuSetBuildError::ParseError(format!("{err}")))?.1
         })
     }
 }
@@ -290,10 +295,13 @@ pub fn get_cpuset_to_pid(pid: Pid) -> Result<CpuSet, GetAffinityError> {
                 &mut cpuset             as *mut cpu_set_t,
             );
 
-        match res {
-            0 => Ok(cpuset.into()),
-            ESRCH => Err(GetAffinityError::UnknownThread),
-            _ => Err(GetAffinityError::SyscallError(std::io::Error::last_os_error())),
+        if res != 0 {
+            match *__errno_location() {
+                ESRCH => Err(GetAffinityError::UnknownThread),
+                _ => Err(GetAffinityError::SyscallError(std::io::Error::last_os_error())),
+            }
+        } else {
+            Ok(cpuset.into())
         }
     }
 }
@@ -312,12 +320,15 @@ pub fn set_cpuset_to_pid(pid: Pid, cpu_set: &CpuSet) -> Result<(), SetAffinityEr
                 &cpuset                 as *const cpu_set_t,
             );
 
-        match res {
-            0 => Ok(()),
-            EINVAL => Err(SetAffinityError::InvalidMask),
-            ESRCH => Err(SetAffinityError::UnknownThread),
-            EPERM => Err(SetAffinityError::PermissionError),
-            _ => Err(SetAffinityError::SyscallError(std::io::Error::last_os_error())),
+        if res != 0 {
+            match *__errno_location() {
+                EINVAL => Err(SetAffinityError::InvalidMask),
+                ESRCH => Err(SetAffinityError::UnknownThread),
+                EPERM => Err(SetAffinityError::PermissionError),
+                _ => Err(SetAffinityError::SyscallError(std::io::Error::last_os_error())),
+            }
+        } else {
+            Ok(())
         }
     }
 }

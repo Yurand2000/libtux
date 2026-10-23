@@ -20,18 +20,20 @@ The following is a non-exhaustive list of currently implemented features:
 - Clock utilities from libc:
     + `Monotonic` and `Realtime` clocks supported.
 - Get/Set process scheduler and affinity.
+- Send signal to process.
 
 ## 🧩 Cargo-Features
 
 | Feature Name | Default | Since | Docs | Description |
 | -----------: | :-----: | ----: | :--: | :---------- |
 | `clock` | ✔️ | 0.1.0 | ❌ | `Monotonic` and `Realtime` clock functions support |
+| `cpuset` | ✔️ | 0.1.2 | ❌ | Get and set process cpu affinity |
 | `time` | ✔️ | 0.1.2 | ❌ | Time constructs. |
 ||||| + Time serialization with `serde`. |
 | `time_extra` | ❌ | 0.1.0 | ❌ | Extra Time-specific structs and functions |
 | `time_iterators` | ✔️ | 0.1.1 | ❌ | Iterators for Time ranges |
 | `sched` | ✔️ | 0.1.2 | ❌ | Get and set process scheduler |
-| `cpuset` | ✔️ | 0.1.2 | ❌ | Get and set process cpu affinity |
+| `signal` | ✔️ | 0.1.2 | ❌ | Send signal to process |
 | |
 | `serde` | ✔️ | 0.1.0 | ❌ | Enable Serialization/Deserialization of supported struct using `serde` |
 | `parser` | ✔️ | 0.1.2 | ❌ | Enable complex string-parsers for supported types. |
@@ -40,7 +42,7 @@ The following is a non-exhaustive list of currently implemented features:
 
 | Crate | Optional | Features |
 | ----: | :-----: | :------ |
-| [`libc`](https://crates.io/crates/libc) | ✔️ | `clock`, `cpuset`, `sched` |
+| [`libc`](https://crates.io/crates/libc) | ✔️ | `clock`, `cpuset`, `sched`, `signal` |
 | [`bitflags`](https://crates.io/crates/bitflags) | ✔️ | `sched` |
 | [`serde`](https://crates.io/crates/serde) | ✔️ | `serde` |
 | [`nom`](https://crates.io/crates/nom) | ✔️ | `parser` |

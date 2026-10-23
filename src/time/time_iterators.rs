@@ -2,13 +2,13 @@ use crate::prelude::*;
 
 pub mod prelude {
     pub use super::{
-        TimeIterators,
+        Iterators,
     };
 }
 
-pub struct TimeIterators;
+pub struct Iterators;
 
-impl TimeIterators {
+impl Iterators {
     pub fn range(start: Time, end: Time) -> impl DoubleEndedIterator<Item = Time> {
         (start.value_ns as usize ..= end.value_ns as usize)
             .map(|time_ns| Time { value_ns: time_ns as f64 })

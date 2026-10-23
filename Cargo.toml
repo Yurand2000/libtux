@@ -16,6 +16,7 @@ default = [
     "time",
     "time_iterators",
     "sched",
+    "signal",
     "serde",
     "parser",
 ]
@@ -25,5 +26,6 @@ time = []
 time_extra = ["time"]
 time_iterators = ["time"]
 sched = ["dep:libc", "dep:bitflags"]
+signal = ["dep:libc"]
 serde = ["dep:serde"]
 parser = ["dep:nom"]

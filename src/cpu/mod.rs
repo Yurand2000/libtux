@@ -7,6 +7,7 @@ pub mod prelude {
 #[derive(Debug, Clone, Copy)]
 #[derive(PartialEq, Eq)]
 #[derive(PartialOrd, Ord)]
+#[derive(Hash)]
 pub struct CpuID(pub u32);
 
 impl std::ops::Deref for CpuID {
