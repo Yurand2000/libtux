@@ -119,7 +119,8 @@ pub fn signal(pid: Pid, sig: Signal) -> Result<(), SignalError> {
     use libc::*;
 
     unsafe {
-        let res = kill(*pid as c_int, sig.into());
+        let res =
+            kill(*pid as c_int, sig.into());
 
         if res != 0 {
             match *__errno_location() {
@@ -136,20 +137,20 @@ pub fn signal(pid: Pid, sig: Signal) -> Result<(), SignalError> {
 
 pub trait SigHandler: FnMut(Signal) + Sync + Send + 'static {}
 
-static SIG_HANDLERS: std::sync::LazyLock<std::sync::Mutex<[Option<Box<dyn SigHandler>>; 32]>> =
+static SIG_HANDLERS: std::sync::LazyLock<std::sync::Mutex<[Option<Box<dyn SigHandler>>; SIG_NUMS]>> =
     std::sync::LazyLock::new(|| std::sync::Mutex::new([const { None }; SIG_NUMS]));
 
 impl<F> SigHandler for F where F: Sync + Send + FnMut(Signal) + 'static {}
 
 pub fn set_handler<F>(sig: Signal, user_handler: F) -> Result<(), SignalError>
-where
-    F: SigHandler,
+    where F: SigHandler,
 {
     {
         let mut guard = SIG_HANDLERS.lock().unwrap();
         let handlers = guard.as_mut();
         handlers[sig as usize] = Some(Box::new(user_handler));
     }
+
     inner_set_handler(
         sig.into(),
         wrapper_handler as *const () as libc::sighandler_t,

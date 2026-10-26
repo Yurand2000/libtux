@@ -1,6 +1,6 @@
 # 🦀 LibTux 🐧
 
-*Current Version: 0.1.2*
+*Current Version: 0.1.3*
 
 Rust's Standard Library extension for Linux systems, leveraging the standard libc and Linux specific syscalls for easier implementation of Linux-only software.
 
@@ -21,6 +21,7 @@ The following is a non-exhaustive list of currently implemented features:
     + `Monotonic` and `Realtime` clocks supported.
 - Get/Set process scheduler and affinity.
 - Send signal to process.
+- Setup signal handler for process.
 
 ## 🧩 Cargo-Features
 
@@ -55,6 +56,7 @@ This project is licensed under the Apache 2.0 license - see the [LICENSE](LICENS
 
 This software was developed by:
 - **Yuri Andriaccio** [![github](https://www.readmecodegen.com/api/social-icon?name=github&size=16&theme=dark&color=%23ffffff)](https://github.com/Yurand2000) - [yurand2000@gmail.com](mailto:yurand2000@gmail.com).
+- **Giuseppe Capasso** [![github](https://www.readmecodegen.com/api/social-icon?name=github&size=16&theme=dark&color=%23ffffff)](https://github.com/alarmfox) - [capassog97@gmail.com](mailto:capassog97@gmail.com).
 
 ---
 
