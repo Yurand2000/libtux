@@ -72,11 +72,11 @@ pub fn clock_gettime(clock: ClockType) -> Time {
         );
     }
 
-    timespec_to_time(timespec)
+    timespec.into()
 }
 
 pub fn clock_sleep_relative(clock: ClockType, time: Time) {
-    let timespec = time_to_timespec(time);
+    let timespec = time.into();
 
     unsafe {
         libc::clock_nanosleep(
@@ -89,7 +89,7 @@ pub fn clock_sleep_relative(clock: ClockType, time: Time) {
 }
 
 pub fn clock_sleep_absolute(clock: ClockType, time: Time) {
-    let timespec = time_to_timespec(time);
+    let timespec = time.into();
 
     unsafe {
         libc::clock_nanosleep(
@@ -99,16 +99,4 @@ pub fn clock_sleep_absolute(clock: ClockType, time: Time) {
             std::ptr::null_mut()
         );
     };
-}
-
-fn timespec_to_time(timespec: libc::timespec) -> Time {
-    Time::secs(timespec.tv_sec as f64) +
-        Time::nanos(timespec.tv_nsec as f64)
-}
-
-fn time_to_timespec(time: Time) -> libc::timespec {
-    libc::timespec {
-        tv_sec: (time.as_secs().floor()) as i64,
-        tv_nsec: (time.as_secs().fract() * Time::SECS_TO_NANO) as i64,
-    }
 }

@@ -281,3 +281,20 @@ mod time_serde {
 
 }
 
+#[cfg(feature = "libc")]
+impl From<libc::timespec> for Time {
+    fn from(timespec: libc::timespec) -> Self {
+        Time::secs(timespec.tv_sec as f64) +
+            Time::nanos(timespec.tv_nsec as f64)
+    }
+}
+
+#[cfg(feature = "libc")]
+impl Into<libc::timespec> for Time {
+    fn into(self) -> libc::timespec {
+        libc::timespec {
+            tv_sec: (self.as_secs().floor()) as i64,
+            tv_nsec: (self.as_secs().fract() * Time::SECS_TO_NANO) as i64,
+        }
+    }
+}

@@ -17,15 +17,17 @@ default = [
     "time_iterators",
     "sched",
     "signal",
+    "libc",
     "serde",
     "parser",
 ]
-clock = ["time", "dep:libc"]
-cpuset = ["dep:libc"]
+clock = ["time", "libc"]
+cpuset = ["libc"]
 time = []
 time_extra = ["time"]
 time_iterators = ["time"]
-sched = ["dep:libc", "dep:bitflags"]
-signal = ["dep:libc"]
+sched = ["libc", "dep:bitflags"]
+signal = ["libc"]
+libc = ["dep:libc"]
 serde = ["dep:serde"]
 parser = ["dep:nom"]
