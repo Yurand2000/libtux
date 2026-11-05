@@ -28,6 +28,17 @@ pub mod signal;
 #[derive(Hash)]
 pub struct Pid(pub u32);
 
+impl Pid {
+    pub fn current() -> Self {
+        let pid =
+            unsafe {
+                libc::gettid()
+            };
+
+        Self(pid as u32)
+    }
+}
+
 impl std::ops::Deref for Pid {
     type Target = u32;
 
